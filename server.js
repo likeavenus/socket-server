@@ -2,11 +2,11 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
+app.use(cors());
 const { Server } = require('socket.io');
 const io = new Server(server);
 const cors = require('cors');
 
-app.use(cors());
 const players = {};
 io.on('connection', (socket) => {
   console.log('a user connected: ', socket.id);
@@ -44,6 +44,10 @@ io.on('connection', (socket) => {
     // emit a message to all players to remove this player
     io.emit('remove_player', socket.id);
   });
+});
+
+app.use(function (request, response) {
+  response.send("<h2>Hello</h2>");
 });
 
 server.listen(process.env.PORT || 8080, () => {
