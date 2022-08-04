@@ -46,6 +46,7 @@ io.on('connection', (socket) => {
   });
 });
 
+app.get('/favicon.ico', (req, res)=> res.status(204));
 app.use(function (request, response) {
   response.send("<h2>Hello</h2>");
 });
