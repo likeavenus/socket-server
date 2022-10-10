@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
 const http = require('http');
-const server = http.createServer(app);
-app.use(cors());
-const { Server } = require('socket.io');
-const io = new Server(server);
 const cors = require('cors');
+app.use(cors());
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+const io = new Server(server, { cors: { origin: '*' } });
 
 const players = {};
 io.on('connection', (socket) => {
@@ -21,7 +21,8 @@ io.on('connection', (socket) => {
     x: Math.floor(Math.random() * 100) + 50,
     y: Math.floor(Math.random() * 100) + 50,
     playerId: socket.id,
-    team: (Math.floor(Math.random() * 2) == 0) ? 'red' : 'blue'
+    team: (Math.floor(Math.random() * 2) == 0) ? 'red' : 'blue',
+    name: null,
   };
   socket.emit('current_players', players);
   socket.broadcast.emit('new_player', players[socket.id]);
@@ -37,7 +38,7 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('update_positions', players[socket.id]);
   })
 
-  socket.on('disconnect',  () => {
+  socket.on('disconnect', () => {
     console.log('user disconnected');
     // remove this player from our players object
     delete players[socket.id];
@@ -46,11 +47,10 @@ io.on('connection', (socket) => {
   });
 });
 
-app.get('/favicon.ico', (req, res)=> res.status(204));
+app.get('/favicon.ico', (req, res) => res.status(204));
 app.use(function (request, response) {
   response.send("<h2>Hello</h2>");
 });
-
 server.listen(process.env.PORT || 8080, () => {
   console.log(`listening on *:${process.env.PORT}`);
 });
