@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./cors')();
 const express = require('express');
 const app = express();
 const http = require('http');
@@ -11,7 +12,6 @@ const io = new Server(index, { cors: {
     methods: ["GET", "POST"]
   }
 });
-require('./cors')();
 
 const players = {};
 const enemies = {};
