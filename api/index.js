@@ -6,7 +6,11 @@ const cors = require('cors');
 app.use(cors());
 const index = http.createServer(app);
 const { Server } = require('socket.io');
-const io = new Server(index, { cors: { origin: '*' } });
+const io = new Server(index, { cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
 
 const players = {};
 const enemies = {};
