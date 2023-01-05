@@ -11,6 +11,7 @@ const io = new Server(index, { cors: {
     methods: ["GET", "POST"]
   }
 });
+require('./cors')();
 
 const players = {};
 const enemies = {};
