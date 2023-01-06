@@ -5,7 +5,10 @@ const http = require('http');
 const cors = require('cors');
 const index = http.createServer(app);
 const { Server } = require('socket.io');
-const io = new Server(index);
+const io = new Server(index, { cors: {
+    origin: '*'
+  }
+});
 app.use(cors());
 app.all('/', (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
