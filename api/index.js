@@ -11,9 +11,14 @@ const io = new Server(index, { cors: {
 });
 app.use(cors());
 app.all('/', (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
+  res.setHeader('Access-Control-Allow-Origin', 'https://socket-server-one.vercel.app/');
+  res.setHeader('Access-Control-Request-Method', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
+  res.setHeader('Access-Control-Allow-Headers', '*');
+  if ( req.method === 'OPTIONS' || req.method === 'GET' ) {
+    res.writeHead(200);
+    res.end();
+  }
 })
 
 
