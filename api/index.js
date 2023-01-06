@@ -61,6 +61,10 @@ app.use(function (request, response) {
   response.send("<h2>Hello</h2>");
 });
 
+index.prependListener('request', (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+})
+
 index.listen(process.env.PORT || 8080, () => {
   console.log(`listening on *:${process.env.PORT}`);
 });
