@@ -5,14 +5,13 @@ const http = require('http');
 const cors = require('cors');
 const index = http.createServer(app);
 const { Server } = require('socket.io');
-const io = new Server(index, { cors: {
-    origin: true,
-    credentials: true,
-    allowEIO3: true,
-    methods: ["GET", "POST", "OPTIONS"]
-  }
-});
-// app.use(cors());
+const io = new Server(index);
+app.use(cors());
+app.all('/', (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+})
 
 
 const players = {};
